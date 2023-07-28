@@ -1,11 +1,11 @@
-import { Outlet,Navigate } from "react-router-dom";
-import { useAuth } from "./auth/AuthProvider";
+import { Outlet, Navigate } from "react-router-dom";
+import { AuthContext } from "./auth/AuthProvider";
 
 
 export default function ProtectedRoutes() {
-   const auth = useAuth();
+    const { session } = useContext(AuthContext);
 
-    return auth.isAuthenticated ? <Outlet/> : <Navigate to="/" />;
+    return session ? <Outlet/> : <Navigate to="/" />;
 }
 
 // only allows authorised users to access the app layout

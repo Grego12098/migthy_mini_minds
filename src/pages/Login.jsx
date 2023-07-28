@@ -1,75 +1,13 @@
-import {useState, useEffect } from "react";
+import {useState, useEffect, useContext } from "react";
 import logo from "../Img/logo-close.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import quotes from "../data/loginQuotes.json";
-import { useAuth } from "../auth/AuthProvider";
+import { AuthContext } from "../auth/AuthProvider";
+
 export default function Login() {
-  const { handleAuthentication } = useAuth(); 
-
-  const [data, setData] = useState(null);
-  const [login, setLogin] = useState({
-    username: "",
-    password: "",
-  });
-
-  const navigate = useNavigate(); 
-
-  const [errorMessage, setErrorMessage] = useState(""); 
-  const { mutate, isError } = useMutation({
-    mutationFn: async (user) => {
-      const loginUser = await axios.post(
-        "https://mighty-mini-minds-backend.onrender.com/login",
-        user
-      );
-      const data = loginUser.data;
-      return data;
-    },
-    onSuccess: (data) => {
-      setData(data);
-      localStorage.setItem("tokenData", JSON.stringify(data.token));
-      localStorage.setItem("userId", JSON.stringify(data.userId));
-      handleAuthentication(true), navigate("/appLayout/welcomePage");
-    },
-    onError: (err) => {
-      console.log(err.message);
-      const error = JSON.stringify(err.response.data.message); 
-      setErrorMessage(error.replace(/"/g, '')); 
-    },
-  });
-
-  // timeout for error message displayed to user 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setErrorMessage("");
-    }, 5000);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [errorMessage]);
-
-  // function to handle the change of the login form
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setLogin((prevLogin) => ({
-      ...prevLogin,
-      [name]: value,
-    }));
-  };
-
-  // function to handle the login and send the data to the backend to authorize the user
-  const handleLogin = () => {
-    const user = {
-      username: login.username,
-      password: login.password,
-    };
-    if (login.username !== "" && login.password !== "") {
-      mutate(user); 
-    } else {
-      alert("Please fill in all fields");
-    }
-  };
+  const { session, supabase } = useContext(AuthContext);
 
   const [randomQuote, setRandomQuote] = useState(null); 
   useEffect(() => {

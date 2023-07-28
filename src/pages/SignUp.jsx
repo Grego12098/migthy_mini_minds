@@ -1,36 +1,17 @@
 import Avatar from "../components/Avatar";
 import logo from "/logo-close.png";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
+import { AuthContext } from "../auth/AuthProvider";
+
 
 export default function SignUp() {
-  const [isRegistered, setIsRegistered] = useState(false); 
-  const navigate = useNavigate(); 
+  const { session, supabase } = useContext(AuthContext);
 
   const [errorMessage, setErrorMessage] = useState(""); 
-  const { mutate, isError } = useMutation({
-    mutationFn: async (user) => {
-      const response = await axios.post(
-        "https://mighty-mini-minds-backend.onrender.com/users", 
-        user
-      );
-      return response.data; 
-    },
-    onSuccess: () => {
-      navigate("/"); 
-    },
-    onError: (err) => {
-      console.log(err.message); 
-      const error = JSON.stringify(err.response.data.message); 
-      if (error) {
-        setErrorMessage(error.replace(/"/g, '')); 
-      } else { 
-        setErrorMessage(JSON.stringify(err.message));
-      }
-    },
-  });
+  
   // timeout for error message displayed to user
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -41,6 +22,34 @@ export default function SignUp() {
       clearTimeout(timeout);
     };
   }, [errorMessage]);
+
+  const handleSignup = async () => {
+    try {
+      const { user, error } = await supabase.auth.signUp({
+        email: signupData.email,
+        password: signupData.password,
+        options: {
+          data: {
+            name: signupData.user,
+            username: signupData.username,
+            password: signupData.password,
+            contact_email: signupData.email,
+            contact_name: signupData.contactName,
+            contact_relationship: signupData.relationship,
+            avatar_url: signupData.avatar || "Bunny",
+          },
+        },
+      });
+
+      if (error) {
+        console.error('Signup error:', error);
+      } else {
+        console.log('Signup successful:', user);
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+    }
+  };
 
   const [signupData, setSignupData] = useState({
     user: "",
@@ -59,34 +68,34 @@ export default function SignUp() {
   }
 
   // function to handle form submission for signup
-  function handleSubmit(event) {
-    event.preventDefault(); 
-    const user = {
-      name: signupData.user,
-      username: signupData.username,
-      password: signupData.password,
-      contact_email: signupData.email,
-      contact_name: signupData.contactName,
-      contact_relationship: signupData.relationship,
-      avatar_url: signupData.avatar || "Bunny",
-    };
-    if (
-      signupData.user !== "" &&
-      signupData.username !== "" &&
-      signupData.password !== "" &&
-      signupData.email !== "" &&
-      signupData.contactName !== "" &&
-      signupData.relationship !== "" 
-    ) {
-      mutate(user);
-      setIsRegistered(true); 
-    } else {
-      alert("Please fill in all fields 😀"); 
-    }
-  }
-  if (isRegistered) {
-    setIsRegistered(false); 
-  }
+  // function handleSubmit(event) {
+  //   event.preventDefault(); 
+  //   const user = {
+  //     name: signupData.user,
+  //     username: signupData.username,
+  //     password: signupData.password,
+  //     contact_email: signupData.email,
+  //     contact_name: signupData.contactName,
+  //     contact_relationship: signupData.relationship,
+  //     avatar_url: signupData.avatar || "Bunny",
+  //   };
+  //   if (
+  //     signupData.user !== "" &&
+  //     signupData.username !== "" &&
+  //     signupData.password !== "" &&
+  //     signupData.email !== "" &&
+  //     signupData.contactName !== "" &&
+  //     signupData.relationship !== "" 
+  //   ) {
+  //     mutate(user);
+  //     setIsRegistered(true); 
+  //   } else {
+  //     alert("Please fill in all fields 😀"); 
+  //   }
+  // }
+  // if (isRegistered) {
+  //   setIsRegistered(false); 
+  // }
 
   return (
     <div className="flex flex-col items-center justify-between h-screen">
@@ -97,8 +106,8 @@ export default function SignUp() {
       />
       <div className="flex flex-col align-center w-11/12 sm:w-9/12 lg:w-8/12 xl:w-7/12 h-3/4 sm:h-4/6 bg-white rounded-lg shadow-lg overflow-y-scroll scrollbar">
         <h1 className="text-3xl sm:text-4xl my-6 sm:my-10 text-center font-bold">Sign Up</h1>
-        {isError? <p className="mt-2 text-center text-base sm:text-lg">{errorMessage}</p> : null}
-        <form className="flex flex-col mx-8 mt-4" onSubmit={handleSubmit}>
+        {/* {isError? <p className="mt-2 text-center text-base sm:text-lg">{errorMessage}</p> : null} */}
+        <form className="flex flex-col mx-8 mt-4" onSubmit={handleSignup}>
           <div className="flex flex-col mb-4">
             <label className="text-sm sm:text-lg">What is your name?</label>
             <input
