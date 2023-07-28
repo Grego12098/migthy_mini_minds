@@ -1,10 +1,17 @@
-[Link to our Back End](https://github.com/dlrodev92/mighty_mini_minds_backEnd)
+[Link to the Back End](https://github.com/Grego12098/mighty_mini_minds_backEnd)
 
-[Demo our app](https://migthyminiminds.netlify.app/)
+[Demo for version 1](https://migthyminiminds.netlify.app/)
 
 Weicome to Mighty Mini Minds, also known as MMM... 
 
 We collaborated as a team of 6 to design and build a Full-stack mental health application for kids aged 7 to 12 within a 5-week timeframe, in order to help them improve their ability to express their emotions and communicate their feelings with others more effectively using guided journaling. They have the option to share their journal entries with their trusted person. 
+
+In the works:
+<ul>
+  <li>Migrate our authentication and datbase to Supabase, whilst retaining the same child friendly design</li>
+  <li>encrpyt the data from the user's to ensure a higher level of security</li>
+  <li>Refine our tests to align with these changes</li>
+</ul>
 
 [You can view our high fideilty prototype here](https://shorturl.at/bAHW4)
 
