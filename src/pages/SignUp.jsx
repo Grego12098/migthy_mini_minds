@@ -32,8 +32,6 @@ export default function SignUp() {
           data: {
             name: signupData.user,
             username: signupData.username,
-            password: signupData.password,
-            contact_email: signupData.email,
             contact_name: signupData.contactName,
             contact_relationship: signupData.relationship,
             avatar_url: signupData.avatar || "Bunny",
