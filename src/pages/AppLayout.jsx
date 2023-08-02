@@ -9,6 +9,7 @@ export default function AppLayout({ handleThemeChange }) {
   
   const [entryId, setEntryId] = useState(null); 
 
+  // use usecontext
   const [questions, setQuestions] = useState([]); 
   useEffect(() => {
     function randomQuestions() {

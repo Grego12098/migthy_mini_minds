@@ -1,11 +1,11 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { AuthContext } from "./auth/AuthProvider";
+import { useContext } from "react";
 
-
-export default function ProtectedRoutes() {
+export default function SkipLogin() {
     const { session } = useContext(AuthContext);
    
-    return session ? <Outlet/> : <Navigate to="/" />;
+    {if(session) return <Navigate to="/appLayout/welcomePage" />};
 }
 
 

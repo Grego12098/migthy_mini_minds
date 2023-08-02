@@ -1,6 +1,6 @@
 import {useState, useEffect, useContext } from "react";
 import logo from "../Img/logo-close.png";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Outlet } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import quotes from "../data/loginQuotes.json";
@@ -9,6 +9,7 @@ import { AuthContext } from "../auth/AuthProvider";
 export default function Login() {
   const { session, supabase } = useContext(AuthContext);
 
+  // make this a hook
   const [randomQuote, setRandomQuote] = useState(null); 
   useEffect(() => {
     function generateRandomQuote() {
@@ -19,6 +20,35 @@ export default function Login() {
     const quote = generateRandomQuote(); 
     setRandomQuote(quote); 
   }, []);
+
+  const [loginData, setLoginData] = useState({
+    password: "",
+    email: "",
+  });
+
+  const handleLogin = async () => {
+    try {
+      const { user, error } = await supabase.auth.signInWithPassword({
+        email: loginData.email,
+        password: loginData.password,
+      });
+      if (error) {
+        console.error("Login error:", error);
+      } else {
+        console.log("Login successful:", user);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData((prevLogin) => ({
+      ...prevLogin,
+      [name]: value,
+    }));
+  };
 
   return (
     <div className="flex flex-col items-center justify-between h-screen overflow-y-hidden">
@@ -31,7 +61,7 @@ export default function Login() {
         <h1 className="my-6 sm:my-10 font-bold text-center text-xl sm:text-4xl">
           Mighty Mini Minds
         </h1>
-        {isError? <p className="my-2 text-center text-base sm:text-lg">{errorMessage}</p> : null}
+        {/* {isError? <p className="my-2 text-center text-base sm:text-lg">{errorMessage}</p> : null} */}
         {randomQuote && (
           <div className="flex flex-col my-4">
             <p className="sm:text-xl font-semibold mx-5">{randomQuote.quote}</p>
@@ -42,16 +72,18 @@ export default function Login() {
         )}
 
         <div className="flex flex-col items-center">
-          <label className="text-lg sm:text-2xl mt-4">Username</label>
+          <label className="text-lg sm:text-2xl mt-4">Email</label>
           <input
-            aria-label="username"
-            name="username"
+            aria-label="email"
+            value={loginData.email}
+            name="email"
             onChange={handleChange}
             className="bg-skin-input shadow-md p-1 rounded-lg w-[75%] sm:w-80"
           />
           <label className="text-lg sm:text-2xl mt-5">Password</label>
           <input
             aria-label="password"
+            value={loginData.password}
             type="password"
             name="password"
             onChange={handleChange}

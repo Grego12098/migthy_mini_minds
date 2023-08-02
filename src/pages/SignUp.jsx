@@ -1,11 +1,9 @@
 import Avatar from "../components/Avatar";
 import logo from "/logo-close.png";
 import { useState, useEffect, useContext } from "react";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
 import { AuthContext } from "../auth/AuthProvider";
-
+import FormInput from "../components/FormInput";
 
 export default function SignUp() {
   const { session, supabase } = useContext(AuthContext);
@@ -38,7 +36,6 @@ export default function SignUp() {
           },
         },
       });
-
       if (error) {
         console.error('Signup error:', error);
       } else {
@@ -107,71 +104,57 @@ export default function SignUp() {
         {/* {isError? <p className="mt-2 text-center text-base sm:text-lg">{errorMessage}</p> : null} */}
         <form className="flex flex-col mx-8 mt-4" onSubmit={handleSignup}>
           <div className="flex flex-col mb-4">
-            <label className="text-sm sm:text-lg">What is your name?</label>
-            <input
-              aria-label="your name"
-              className="bg-skin-input shadow-md"
-              name="user"
+            <FormInput 
+              label={"What is your name?"} 
+              name={"user"} 
               value={signupData.user}
-              onChange={handleInputChange}
+              handleInputChange={handleInputChange}
             />
           </div>
 
           <div className="flex justify-between mb-4">
             <div className="flex flex-col w-1/2 mr-2">
-              <label className="text-sm sm:text-lg">Username</label>
-              <input
-                aria-label="username"
-                className="bg-skin-input shadow-md"
-                name="username"
+              <FormInput 
+                label={"Username"} 
+                name={"username"} 
                 value={signupData.username}
-                onChange={handleInputChange}
+                handleInputChange={handleInputChange}
               />
             </div>
             <div className="flex flex-col w-1/2 ml-2">
-              <label className="text-sm sm:text-lg">Password</label>
-              <input
-                aria-label="password"
-                className="bg-skin-input shadow-md"
-                name="password"
+              <FormInput 
+                label={"Password"} 
+                name={"password"} 
                 value={signupData.password}
-                onChange={handleInputChange}
+                handleInputChange={handleInputChange}
               />
             </div>
           </div>
 
           <div className="flex flex-col mb-4">
-            <label className="text-sm sm:text-lg">
-              Email of someone you trust*
-            </label>
-            <input
-              aria-label="email of someone you trust"
-              className="bg-skin-input shadow-md"
-              name="email"
+            <FormInput 
+              label={"Email of someone you trust"} 
+              name={"email"} 
               value={signupData.email}
-              onChange={handleInputChange}
+              handleInputChange={handleInputChange}
             />
           </div>
 
           <div className="flex justify-between mb-4">
             <div className="flex flex-col w-1/2 mr-2">
-              <label className="text-sm sm:text-lg">Contact name</label>
-              <input
-                aria-label="contact's name"
-                className="bg-skin-input shadow-md"
-                name="contactName"
+              <FormInput 
+                label={"Contact's name"} 
+                name={"contactName"} 
                 value={signupData.contactName}
-                onChange={handleInputChange}
+                handleInputChange={handleInputChange}
               />
             </div>
             <div className="flex flex-col w-1/2 ml-2">
-              <label className="text-sm sm:text-lg">Relationship</label>
-              <input
-                aria-label="relationship to your contact"
-                className="bg-skin-input shadow-md"
-                name="relationship"
+              <FormInput 
+                label={"Relationship"} 
+                name={"relationship"} 
                 value={signupData.relationship}
-                onChange={handleInputChange}
+                handleInputChange={handleInputChange}
               />
             </div>
           </div>
