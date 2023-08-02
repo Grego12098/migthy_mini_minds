@@ -3,3 +3,13 @@
 *{
     font-family: 'Comfortaa', cursive;
 }
+
+.odd-even-grid > :nth-child(odd) {
+    grid-column: 1;
+    grid-row: span 1;
+  }
+  
+.odd-even-grid > :nth-child(even) {
+    grid-column: span 2;
+    grid-row: span 1;
+}

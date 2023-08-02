@@ -1,4 +1,6 @@
-export default function FormInput({ label, name, value, handleInputChange, sanitized, handleError}) {
+import React from "react";
+
+const FormInput = React.memo(({ label, name, value, handleInputChange, sanitized, handleError}) => {
   return (
     <>
         <label className="text-sm sm:text-lg">{label}</label>
@@ -12,4 +14,6 @@ export default function FormInput({ label, name, value, handleInputChange, sanit
             />
     </>
   );
-}
+});
+
+export default FormInput;

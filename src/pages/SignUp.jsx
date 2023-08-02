@@ -1,19 +1,19 @@
-import Avatar from "../components/Avatar";
-import logo from "/logo-close.png";
-import { useState, useEffect, useContext } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
-import { AuthContext } from "../auth/AuthProvider";
-import FormInput from "../components/FormInput";
+import Avatar from '../components/Avatar';
+import logo from '/logo-close.png';
+import { useState, useEffect, useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+import { AuthContext } from '../auth/AuthProvider';
+import FormInput from '../components/FormInput';
+import '../App.css';
 
 export default function SignUp() {
-  const { session, supabase } = useContext(AuthContext);
+  const { supabase } = useContext(AuthContext);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const [errorMessage, setErrorMessage] = useState(""); 
-  
   // timeout for error message displayed to user
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setErrorMessage("");
+      setErrorMessage('');
     }, 5000);
 
     return () => {
@@ -62,18 +62,6 @@ export default function SignUp() {
     setSignupData((prevState) => ({ ...prevState, [name]: value })); 
   }
 
-  // function to handle form submission for signup
-  // function handleSubmit(event) {
-  //   event.preventDefault(); 
-  //   const user = {
-  //     name: signupData.user,
-  //     username: signupData.username,
-  //     password: signupData.password,
-  //     contact_email: signupData.email,
-  //     contact_name: signupData.contactName,
-  //     contact_relationship: signupData.relationship,
-  //     avatar_url: signupData.avatar || "Bunny",
-  //   };
   //   if (
   //     signupData.user !== "" &&
   //     signupData.username !== "" &&
@@ -82,89 +70,51 @@ export default function SignUp() {
   //     signupData.contactName !== "" &&
   //     signupData.relationship !== "" 
   //   ) {
-  //     mutate(user);
-  //     setIsRegistered(true); 
-  //   } else {
-  //     alert("Please fill in all fields 😀"); 
-  //   }
-  // }
-  // if (isRegistered) {
-  //   setIsRegistered(false); 
-  // }
+  
+  const inputs = [
+    { name: 'user', label: 'What is your name?' },
+    { name: 'username', label: 'Username' },
+    { name: 'password', label: 'Password' },
+    { name: 'email', label: 'Email of someone you trust' },
+    { name: 'contactName', label: 'Their name' },
+    { name: 'relationship', label: 'Their relationship to you' },
+  ];
 
   return (
     <div className="flex flex-col items-center justify-between h-screen">
-       <img
+      <img
         src={logo}
         alt="logo"
         className="h-24 w-40 my-8"
       />
-      <div className="flex flex-col align-center w-11/12 sm:w-9/12 lg:w-8/12 xl:w-7/12 h-3/4 sm:h-4/6 bg-white rounded-lg shadow-lg overflow-y-scroll scrollbar">
-        <h1 className="text-3xl sm:text-4xl my-6 sm:my-10 text-center font-bold">Sign Up</h1>
-        {/* {isError? <p className="mt-2 text-center text-base sm:text-lg">{errorMessage}</p> : null} */}
-        <form className="flex flex-col mx-8 mt-4" onSubmit={handleSignup}>
-          <div className="flex flex-col mb-4">
-            <FormInput 
-              label={"What is your name?"} 
-              name={"user"} 
-              value={signupData.user}
-              handleInputChange={handleInputChange}
-            />
+      <div className="flex flex-col align-center w-11/12 md:w-9/12 lg:w-8/12 xl:w-7/12 h-3/4 sm:h-4/6 bg-white rounded-lg shadow-lg overflow-y-scroll scrollbar">
+        <h1 className="text-3xl sm:text-4xl my-6 sm:my-10 text-center font-bold">
+          Sign Up
+        </h1>
+
+        <form 
+          className="flex flex-col mx-8 mt-4"
+          onSubmit={handleSignup}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {inputs.map((item, index) => (
+              <div className={`${index === 0 || index === 3 ? 'sm:col-span-2' : 'sm:col-span-1'} flex flex-col`} key={index}>
+                <FormInput
+                  label={item.label}
+                  name={item.name}
+                  value={signupData[`signupData.${item.name}`]}
+                  handleInputChange={handleInputChange}
+                />
+              </div>
+            ))}
           </div>
 
-          <div className="flex justify-between mb-4">
-            <div className="flex flex-col w-1/2 mr-2">
-              <FormInput 
-                label={"Username"} 
-                name={"username"} 
-                value={signupData.username}
-                handleInputChange={handleInputChange}
-              />
-            </div>
-            <div className="flex flex-col w-1/2 ml-2">
-              <FormInput 
-                label={"Password"} 
-                name={"password"} 
-                value={signupData.password}
-                handleInputChange={handleInputChange}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col mb-4">
-            <FormInput 
-              label={"Email of someone you trust"} 
-              name={"email"} 
-              value={signupData.email}
-              handleInputChange={handleInputChange}
-            />
-          </div>
-
-          <div className="flex justify-between mb-4">
-            <div className="flex flex-col w-1/2 mr-2">
-              <FormInput 
-                label={"Contact's name"} 
-                name={"contactName"} 
-                value={signupData.contactName}
-                handleInputChange={handleInputChange}
-              />
-            </div>
-            <div className="flex flex-col w-1/2 ml-2">
-              <FormInput 
-                label={"Relationship"} 
-                name={"relationship"} 
-                value={signupData.relationship}
-                handleInputChange={handleInputChange}
-              />
-            </div>
-          </div>
 
           <div className="flex justify-between my-4 items-center">
             <div className="flex flex-col mb-4 w-1/3 sm:w-2/5">
               <label className="text-sm sm:text-lg">Choose avatar</label>
               <select
                 aria-label="choose an avatar"
-                className="bg-skin-input text-xs sm:text-base h-6 shadow-md"
+                className="bg-skin-input text-sm sm:text-base h-6 shadow-md"
                 name="avatar"
                 value={signupData.avatar}
                 onChange={handleInputChange}
@@ -175,7 +125,7 @@ export default function SignUp() {
                 <option value="Cat">Cat</option>
               </select>
             </div>
-            <div className="flex flex-col my-4 w-3/4 sm:w-2/3">
+            <div className="flex flex-col my-4 sm:pt-4 w-3/4 sm:w-2/3">
               <Avatar
                 selection={signupData.avatar}
                 animation={true}
