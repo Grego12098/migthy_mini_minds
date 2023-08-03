@@ -4,7 +4,6 @@ import Thermometer from "../components/Thermometer";
 import WordOfTheDay from "../components/WordOfTheDay";
 import ReminderQuote from "../components/ReminderQuote";
 import { useGet } from "../hooks/useGet";
-import axios from "axios";
 
 export default function MoodMap() {
   const { data: entries} = useGet(); 

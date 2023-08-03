@@ -30,7 +30,7 @@ export default function AppLayout({ handleThemeChange }) {
     <div className="flex flex-col justify-between h-screen">
       <Header />
       <main className="flex justify-center h-[70vh] md:h-[73vh] xl:h-[76vh]">
-        <div className="overflow-y-scroll scrollbar w-11/12 sm:w-9/12 lg:w-8/12 xl:w-7/12 bg-white rounded-lg shadow-lg">
+        <div className="overflow-y-scroll scrollbar w-11/12 md:w-9/12 lg:w-8/12 xl:w-7/12 bg-white rounded-lg shadow-lg">
           <Outlet context={[questions, entryId, setEntryId]} />
         </div>
       </main>

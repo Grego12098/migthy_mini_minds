@@ -76,7 +76,7 @@ export default function AddEntry() {
         ></textarea>
       </div>
       <div className="flex justify-center mt-2 sm:mb-4 md:mt-8">
-        <NavLink to="../thanksPage">
+        <NavLink to="/thanksPage">
           <button
             onClick={submit}
             className="text-white shadow-md text-lg sm:text-3xl transition-colors duration-300 ease-in-out transform hover:scale-125 bg-skin-secondary rounded-md py-1.5 px-3 m-6 mt-2 "

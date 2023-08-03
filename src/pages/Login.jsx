@@ -57,7 +57,7 @@ export default function Login() {
         alt="logo"
         className="h-24 w-40 my-8"
       />
-      <div className="overflow-y-scroll scrollbar flex flex-col  justify-between align-center w-11/12 sm:w-9/12 lg:w-8/12 xl:w-7/12 h-3/4 sm:h-4/6 bg-white rounded-lg shadow-lg text-center">
+      <div className="overflow-y-scroll scrollbar flex flex-col  justify-between align-center w-11/12 md:w-9/12 lg:w-8/12 xl:w-7/12 h-3/4 sm:h-4/6 bg-white rounded-lg shadow-lg text-center">
         <h1 className="my-6 sm:my-10 font-bold text-center text-xl sm:text-4xl">
           Mighty Mini Minds
         </h1>

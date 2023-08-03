@@ -38,7 +38,7 @@ export default function WelcomePage() {
     };
     if (mood !== 0) {
       mutate(entry); 
-      navigate("../addEntry"); 
+      navigate("/addEntry"); 
     } else {
       alert("Please select a mood"); 
     }

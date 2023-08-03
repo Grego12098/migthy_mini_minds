@@ -10,7 +10,7 @@ export default function About() {
         alt="logo"
         className="h-24 w-40 my-8"
       />
-      <div className="flex flex-col justify-between align-center w-11/12 sm:w-9/12 lg:w-8/12 xl:w-7/12 12 h-4/5 sm:h-3/4 bg-white rounded-lg shadow-lg text-center overflow-y-scroll scrollbar">
+      <div className="flex flex-col justify-between align-center w-11/12 md:w-9/12 lg:w-8/12 xl:w-7/12 12 h-4/5 sm:h-3/4 bg-white rounded-lg shadow-lg text-center overflow-y-scroll scrollbar">
         <h1
           className="sm:mt-4 m-2 text-lg sm:text-xl sm:mx-10"
           style={{ fontWeight: "bold" }}
